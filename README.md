@@ -74,7 +74,7 @@ Ces substitutions permettent de personnaliser le composant `linky_bridge.yaml` s
 ### 🧮 Adresses Modbus (surchargables)
 
 | Substitution                  |  Description                                      | Adresse par défaut | 
-|-------------------------------|--------------------|--------------- -----------------------------------|
+|-------------------------------|---------------------------------------------------|--------------------|
 | `modbus_address`              | Adresse modbus sur uart1                          | `1`                | 
 | `modbus2_address`             | Adresse modbus sur uart2                          | `1`                |
 

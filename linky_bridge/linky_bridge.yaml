@@ -1,10 +1,6 @@
 substitutions:
-  name: linky_bridge
-  enable_uart2: "false"
-  enable_mqtt: "false"
-  enable_rest: "false"
-  enable_espnow: "false"
-  enable_modbus_tcp: "false"
+  name: linky-bridge
+  timezone: "Europe/Paris"
 
   # UART TIC
   uart_tic_tx_pin: GPIO17
@@ -18,10 +14,10 @@ substitutions:
   uart_rs485_parity: NONE
 
   # UART RS485 secondaire (optionnel)
-  uart_rs485_2_tx_pin: GPIO35
-  uart_rs485_2_rx_pin: GPIO37
+  uart_rs485_2_tx_pin: GPIO38
+  uart_rs485_2_rx_pin: GPIO40
   uart_rs485_2_baud_rate: 9600
-  uart_rs485__2_stop_bits: 1
+  uart_rs485_2_stop_bits: 1
   uart_rs485_2_parity: NONE
 
   #Modbus
@@ -30,7 +26,7 @@ substitutions:
 
   #Modbus2 (optionnel)
   modbus2_address: 1
-  modbus2_flow_control_pin: GPIO36
+  modbus2_flow_control_pin: GPIO39
 
 esphome:
   name: ${name}
@@ -45,9 +41,20 @@ logger:
   level: NONE
   baud_rate: 0
 
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  power_save_mode: none
+
+  ap:
+    ssid: "fallback_ap"
+    password: "fallback_password"
+
 api:
 
 ota:
+  - platform: esphome
+    password: !secret ota_pass
 
 web_server:
   port: 80
@@ -57,7 +64,7 @@ mdns:
 
 time:
   - platform: sntp
-    timezone: "Europe/Paris"
+    timezone: ${timezone}
     id: my_time
 
 uart:
@@ -82,7 +89,6 @@ uart:
     rx_pin: ${uart_rs485_2_rx_pin}
     stop_bits: ${uart_rs485_2_stop_bits}
     parity: ${uart_rs485_2_parity}
-    enable: !lambda 'return ${enable_uart2} == "true";'
 
 teleinfo:
   id: myteleinfo
@@ -95,43 +101,21 @@ modbus:
     uart_id: uart_rs485
     flow_control_pin: ${modbus_flow_control_pin}
     send_wait_time: 200ms
+    role: server
 
   - id: modbus2
     uart_id: uart_rs485_2
     flow_control_pin: ${modbus2_flow_control_pin}
     send_wait_time: 200ms
-    enable: !lambda 'return ${enable_uart2} == "true";'
-
-modbus_controller:
-  - id: modbus_slave
-    address: ${modbus_address}
-    modbus_id: modbus1
-    register_count: 256
-    setup_priority: -10
-
-  - id: modbus_slave2
-    address: ${moddbus2_address}
-    modbus_id: modbus2
-    register_count: 256
-    setup_priority: -10
-    enable: !lambda 'return ${enable_uart2} == "true";'
-
-modbus_server:
-  id: modbus_tcp
-  port: 502
-  enable: !lambda 'return ${enable_modbus_tcp} == "true";'
+    role: server
 
 mqtt:
   broker: !secret mqtt_broker
   username: !secret mqtt_user
   password: !secret mqtt_pass
   discovery: true
-  enable: !lambda 'return ${enable_mqtt} == "true";'
 
-esp_now:
-  enable: !lambda 'return ${enable_espnow} == "true";'
-
-rest:
-  enable: !lambda 'return ${enable_rest} == "true";'
+espnow:
+  auto_add_peer: true
 
 <<: !include modbus_map.yaml

@@ -1,6 +1,6 @@
 # 🔌 Linky Bridge – Composant ESPHome
 
-Un composant ESPHome modulaire en YAML pour exposer les données téléinfo Linky via Modbus RTU, Modbus TCP, MQTT, REST ou ESP-NOW.  
+Un composant ESPHome modulaire en YAML pour exposer les données téléinfo Linky via Modbus RTU, MQTT ou ESP-NOW.  
 Compatible avec les contrats BASE, HC/HP, EJP et TEMPO.
 
 ---
@@ -32,16 +32,6 @@ Ces substitutions permettent de personnaliser le composant `linky_bridge.yaml` s
 |---------------------|----------------------------------------|-------------------|
 | `name`              | Nom du composant ESPHome               | `linky_bridge`    |
 
-### 🔌 Options activables
-
-| Substitution           | Description                                 | Valeur par défaut |
-|------------------------|---------------------------------------------|-------------------|
-| `enable_uart2`         | Active le second bus RS485 (`true` / `false`) | `"false"`         |
-| `enable_mqtt`          | Active la publication MQTT (`true` / `false`) | `"false"`         |
-| `enable_rest`          | Active l’API REST (`true` / `false`)          | `"false"`         |
-| `enable_espnow`        | Active la communication ESP-NOW (`true` / `false`) | `"false"`     |
-| `enable_modbus_tcp`    | Active le serveur Modbus TCP (`true` / `false`) | `"false"`       |
-
 ### 📡 UART TIC
 
 | Substitution        | Description                        | Valeur par défaut |
@@ -64,9 +54,9 @@ Ces substitutions permettent de personnaliser le composant `linky_bridge.yaml` s
 
 | Substitution                  | Description                             | Valeur par défaut |
 |-------------------------------|-----------------------------------------|-------------------|
-| `uart_rs485_2_tx_pin`         | Broche TX pour RS485 secondaire         | `GPIO35`          |
-| `uart_rs485_2_rx_pin`         | Broche RX pour RS485 secondaire         | `GPIO37`          |
-| `modbus2_flow_control_pin`    | Broche de contrôle de flux secondaire   | `GPIO36`          |
+| `uart_rs485_2_tx_pin`         | Broche TX pour RS485 secondaire         | `GPIO38`          |
+| `uart_rs485_2_rx_pin`         | Broche RX pour RS485 secondaire         | `GPIO40`          |
+| `modbus2_flow_control_pin`    | Broche de contrôle de flux secondaire   | `GPIO39`          |
 | `uart_rs485_2_baud_rate`      | Baudrate RS485 secondaire               | `9600`            |
 | `uart_rs485__2_stop_bits`     | Stop bits RS485 secondaire              | `1`               |
 | `uart_rs485_2_parity`         | Parité RS485 secondaire                 | `NONE`            |
@@ -87,41 +77,41 @@ Les registres suivants sont exposés en lecture via Modbus RTU ou TCP. Les adres
 | Adresse   | Type        | Unité   | Source TIC     | Description                            |
 |-----------|-------------|---------|----------------|----------------------------------------|
 | `0`       | `U_DWORD`   | `Wh`    | `EAST`         | Énergie totale soutirée                |
-| `4`       | `U_DWORD`   | `Wh`    | `EAIT`         | Énergie totale injectée                |
-| `10`      | `U_DWORD`   | `Wh`    | `EASF01`       | Énergie période 1 (`HC`)               |
-| `14`      | `U_DWORD`   | `Wh`    | `EASF02`       | Énergie période 2 (`HP`)               |
-| `20`      | `U_DWORD`   | `Wh`    | `EASF01`       | Énergie période 1 (`EJP Normal`)       |
-| `24`      | `U_DWORD`   | `Wh`    | `EASF02`       | Énergie période 2 (`EJP Pointe`)       |
-| `30`      | `U_DWORD`   | `Wh`    | `EASF01`       | Énergie période 1 (`BLEU HC`)          |
-| `34`      | `U_DWORD`   | `Wh`    | `EASF02`       | Énergie période 2 (`BLEU HP`)          |
-| `38`      | `U_DWORD`   | `Wh`    | `EASF03`       | Énergie période 3 (`BLANC HC`)         |
-| `42`      | `U_DWORD`   | `Wh`    | `EASF04`       | Énergie période 1 (`BLANC HP`)         |
-| `46`      | `U_DWORD`   | `Wh`    | `EASF05`       | Énergie période 2 (`ROUGE HC`)         |
-| `50`      | `U_DWORD`   | `Wh`    | `EASF06`       | Énergie période 3 (`ROUGE HP`)         |
-| `100`     | `U_DWORD`   | `A`     | `IRMS1`        | Courant phase 1                        |
-| `104`     | `U_DWORD`   | `A`     | `IRMS2`        | Courant phase 2                        |
-| `108`     | `U_DWORD`   | `A`     | `IRMS3`        | Courant phase 3                        |
-| `112`     | `U_DWORD`   | `V`     | `URMS1`        | Tension phase 1                        |
-| `118`     | `U_DWORD`   | `V`     | `URMS2`        | Tension phase 2                        |
-| `122`     | `U_DWORD`   | `V`     | `URMS3`        | Tension phase 3                        |
-| `124`     | `U_DWORD`   | `VA`    | `SINSTS`       | Puissance apparente instantanée        |
-| `128`     | `U_DWORD`   | `VA`    | `SMAXSN`       | Puissance max du jour (totale)         |
-| `132`     | `U_DWORD`   | `VA`    | `PCOUP`        | Puissance de coupure                   |
-| `136`     | `U_DWORD`   | `kVA`   | `PREF`         | Puissance de référence                 |
-| `140`     | `U_DWORD`   | `-`     | `CCASN`        | Compteur de dépassement                |
-| `144`     | `U_DWORD`   | `VA`    | `SINST1`       | Puissance phase 1                      |
-| `148`     | `U_DWORD`   | `VA`    | `SINST2`       | Puissance phase 2                      |
-| `152`     | `U_DWORD`   | `VA`    | `SINST3`       | Puissance phase 3                      |
-| `156`     | `U_DWORD`   | `VA`    | `SMAXSN1`      | Puissance max phase 1                  |
-| `160`     | `U_DWORD`   | `VA`    | `SMAXSN2`      | Puissance max phase 2                  |
-| `164`     | `U_DWORD`   | `VA`    | `SMAXSN3`      | Puissance max phase 3                  |
-| `170`     | `STRING(8)` | `-`     | `NGTF`         | Type de contrat                        |
-| `174`     | `STRING(8)` | `-`     | `LTARF`        | Tarif en cours                         |
-| `180`     | `U_DWORD`   | `-`     | `NTARF`        | Index tarifaire en cours               |
-| `184`     | `U_DWORD`   | `-`     | `NJOURF`       | Jour tarifaire actuel                  |
-| `188`     | `U_DWORD`   | `-`     | `NJOURF+1`     | Jour tarifaire prévu demain            |
-| `192`     | `STRING(8)` | `-`     | `PJOURF+1`     | Profil tarifaire prévu demain          |
-| `196`     | `STRING(8)` | `-`     | `PPOINTE`      | Jour de pointe prévu demain            |
+| `2`       | `U_DWORD`   | `Wh`    | `EAIT`         | Énergie totale injectée                |
+| `4`       | `U_DWORD`   | `Wh`    | `EASF01`       | Énergie période 1 (`HC`)               |
+| `6`       | `U_DWORD`   | `Wh`    | `EASF02`       | Énergie période 2 (`HP`)               |
+| `8`       | `U_DWORD`   | `Wh`    | `EASF01`       | Énergie période 1 (`EJP Normal`)       |
+| `10`      | `U_DWORD`   | `Wh`    | `EASF02`       | Énergie période 2 (`EJP Pointe`)       |
+| `12`      | `U_DWORD`   | `Wh`    | `EASF01`       | Énergie période 1 (`BLEU HC`)          |
+| `14`      | `U_DWORD`   | `Wh`    | `EASF02`       | Énergie période 2 (`BLEU HP`)          |
+| `16`      | `U_DWORD`   | `Wh`    | `EASF03`       | Énergie période 3 (`BLANC HC`)         |
+| `18`      | `U_DWORD`   | `Wh`    | `EASF04`       | Énergie période 1 (`BLANC HP`)         |
+| `20`      | `U_DWORD`   | `Wh`    | `EASF05`       | Énergie période 2 (`ROUGE HC`)         |
+| `22`      | `U_DWORD`   | `Wh`    | `EASF06`       | Énergie période 3 (`ROUGE HP`)         |
+| `24`      | `U_WORD`    | `A`     | `IRMS1`        | Courant phase 1                        |
+| `25`      | `U_WORD`    | `A`     | `IRMS2`        | Courant phase 2                        |
+| `26`      | `U_WORD`    | `A`     | `IRMS3`        | Courant phase 3                        |
+| `27`      | `U_WORD`    | `V`     | `URMS1`        | Tension phase 1                        |
+| `28`      | `U_WORD`    | `V`     | `URMS2`        | Tension phase 2                        |
+| `29`      | `U_WORD`    | `V`     | `URMS3`        | Tension phase 3                        |
+| `30`      | `U_DWORD`   | `VA`    | `SINSTS`       | Puissance apparente instantanée        |
+| `32`      | `U_DWORD`   | `VA`    | `SINST1`       | Puissance phase 1                      |
+| `34`      | `U_DWORD`   | `VA`    | `SINST2`       | Puissance phase 2                      |
+| `36`      | `U_DWORD`   | `VA`    | `SINST3`       | Puissance phase 3                      |
+| `38`      | `U_DWORD`   | `VA`    | `SMAXSN`       | Puissance max du jour (totale)         |
+| `40`      | `U_DWORD`   | `VA`    | `SMAXSN1`      | Puissance max phase 1                  |
+| `42`      | `U_DWORD`   | `VA`    | `SMAXSN2`      | Puissance max phase 2                  |
+| `44`      | `U_DWORD`   | `VA`    | `SMAXSN3`      | Puissance max phase 3                  |
+| `46`      | `U_DWORD`   | `VA`    | `PCOUP`        | Puissance de coupure                   |
+| `48`      | `U_WORD`    | `kVA`   | `PREF`         | Puissance de référence                 |
+| `49`      | `U_DWORD`   | `-`     | `CCASN`        | Compteur de dépassement                |
+| `50`      | `U_WORD`    | `-`     | `NTARF`        | Index tarifaire en cours               |
+| `51`      | `U_WORD`    | `-`     | `NJOURF`       | Jour tarifaire actuel                  |
+| `52`      | `U_WORD`    | `-`     | `NJOURF+1`     | Jour tarifaire prévu demain            |
+| `53`      | `U_QWORD`   | `-`     | `NGTF`         | Type de contrat                        |
+| `57`      | `U_QWORD`   | `-`     | `LTARF`        | Tarif en cours                         |
+| `61`      | `U_QWORD`   | `-`     | `PJOURF+1`     | Profil tarifaire prévu demain          |
+| `65`      | `U_QWORD`   | `-`     | `PPOINTE`      | Jour de pointe prévu demain            |
 
 ## ⚙️ Valeurs possibles
 Valeurs possibles pour différents registres de type STRING
@@ -212,8 +202,6 @@ substitutions:
   uart_rs485_tx_pin: GPIO1
   uart_rs485_rx_pin: GPIO3
   modbus_flow_control_pin: GPIO4
-  enable_mqtt: "true"
-  enable_modbus_tcp: "true"
   modbus_easf01_addr: "20"
   modbus_sinsts_addr: "130"
 
@@ -247,13 +235,22 @@ Le composant est organisé dans un dossier `linky_bridge/` contenant :
 ```yaml
 substitutions:
   name: linky_bridge
-  enable_modbus_tcp: "true"
-  enable_mqtt: "true"
   uart_tic_rx_pin: GPIO16
   uart_tic_tx_pin: GPIO17
   uart_rs485_tx_pin: GPIO13
   uart_rs485_rx_pin: GPIO21
   modbus_flow_control_pin: GPIO14
+```
+3. **Créer un fichier `secrets.yaml` à la racine de votre projet (avec votre fichier yaml). Il va contenir vos mots de passe et votre serveur mqtt
+
+```yaml
+wifi_ssid: "MonSSID"
+wifi_password: "MonMotDePasse"
+mqtt_user: "utilisateur"
+mqtt_pass: "mot_de_passe"
+mqtt_broker: "mon_broker_mqtt"
+ota_pass: "qwerty123456"
+
 ```
 
 3. **Incluez le composant dans votre configuration** :

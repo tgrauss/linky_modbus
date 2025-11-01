@@ -1,0 +1,456 @@
+
+text_sensor:
+  - platform: teleinfo
+    tag_name: "NGTF"
+    name: "Type de contrat"
+    id: ngtf
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "LTARF"
+    name: "Tarif en cours"
+    id: ltarf
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "PJOURF+1"
+    name: "Profil tarifaire prévu demain"
+    id: pjourf_plus1
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "PPOINTE"
+    name: "Jour de pointe prévu demain"
+    id: ppoointe
+    teleinfo_id: myteleinfo
+
+sensor:
+  # Informations TIC
+  # Index énergie par contrat
+  - platform: teleinfo
+    tag_name: "EAST"
+    name: "Énergie totale soutirée"
+    unit_of_measurement: "Wh"
+    id: east
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "EAIT"
+    name: "Énergie totale injectée"
+    unit_of_measurement: "Wh"
+    id: east
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "EASF01"
+    name: "Énergie période 1"
+    unit_of_measurement: "Wh"
+    id: easf01
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "EASF02"
+    name: "Énergie période 2"
+    unit_of_measurement: "Wh"
+    id: easf02
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "EASF03"
+    name: "Énergie période 3"
+    unit_of_measurement: "Wh"
+    id: easf03
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "EASF04"
+    name: "Énergie période 4"
+    unit_of_measurement: "Wh"
+    id: easf04
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "EASF05"
+    name: "Énergie période 5"
+    unit_of_measurement: "Wh"
+    id: easf05
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "EASF06"
+    name: "Énergie période 6"
+    unit_of_measurement: "Wh"
+    id: easf06
+    teleinfo_id: myteleinfo
+
+  # Courants par phase
+  - platform: teleinfo
+    tag_name: "IRMS1"
+    name: "Courant phase 1"
+    unit_of_measurement: "A"
+    id: irms1
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "IRMS2"
+    name: "Courant phase 2"
+    unit_of_measurement: "A"
+    id: irms2
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "IRMS3"
+    name: "Courant phase 3"
+    unit_of_measurement: "A"
+    id: irms3
+    teleinfo_id: myteleinfo
+
+  # Tensions par phase
+  - platform: teleinfo
+    tag_name: "URMS1"
+    name: "Tension phase 1"
+    unit_of_measurement: "V"
+    id: urms1
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "URMS2"
+    name: "Tension phase 2"
+    unit_of_measurement: "V"
+    id: urms2
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "URMS3"
+    name: "Tension phase 3"
+    unit_of_measurement: "V"
+    id: urms3
+    teleinfo_id: myteleinfo
+
+  # Puissance instantanée
+  - platform: teleinfo
+    tag_name: "SINSTS"
+    name: "Puissance apparente totale"
+    unit_of_measurement: "VA"
+    id: sinsts
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "SINST1"
+    name: "Puissance phase 1"
+    unit_of_measurement: "VA"
+    id: sinst1
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "SINST2"
+    name: "Puissance phase 2"
+    unit_of_measurement: "VA"
+    id: sinst2
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "SINST3"
+    name: "Puissance phase 3"
+    unit_of_measurement: "VA"
+    id: sinst3
+    teleinfo_id: myteleinfo
+
+  # Puissance max du jour
+  - platform: teleinfo
+    tag_name: "SMAXSN"
+    name: "Puissance max totale"
+    unit_of_measurement: "VA"
+    id: smaxsn
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "SMAXSN1"
+    name: "Puissance max phase 1"
+    unit_of_measurement: "VA"
+    id: smaxsn1
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "SMAXSN2"
+    name: "Puissance max phase 2"
+    unit_of_measurement: "VA"
+    id: smaxsn2
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "SMAXSN3"
+    name: "Puissance max phase 3"
+    unit_of_measurement: "VA"
+    id: smaxsn3
+    teleinfo_id: myteleinfo
+
+  # Autres
+  - platform: teleinfo
+    tag_name: "PCOUP"
+    name: "Puissance de coupure"
+    unit_of_measurement: "VA"
+    id: pcoup
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "PREF"
+    name: "Puissance de référence"
+    unit_of_measurement: "kVA"
+    id: pref
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "CCASN"
+    name: "Compteur de dépassement"
+    id: ccasn
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "NTARF"
+    name: "Index tarifaire en cours"
+    id: ntarf
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "NJOURF"
+    name: "Jour tarifaire actuel"
+    id: njourf
+    teleinfo_id: myteleinfo
+
+  - platform: teleinfo
+    tag_name: "NJOURF+1"
+    name: "Jour tarifaire prévu demain"
+    id: njourf_plus1
+    teleinfo_id: myteleinfo
+
+modbus_register:
+  #Registres TIC
+  # 🔵 Contrat BASE
+  - modbus_controller_id: modbus_slave
+    address: 0
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(east).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 4
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(eait).state;'
+
+  # 🔵 HC/HP
+  - modbus_controller_id: modbus_slave
+    address: 10
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(easf01).state;'  # HC
+
+  - modbus_controller_id: modbus_slave
+    address: 14
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(easf02).state;'  # HP
+
+  # 🔴 EJP
+  - modbus_controller_id: modbus_slave
+    address: 20
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(easf01).state;'  # Jours normaux
+
+  - modbus_controller_id: modbus_slave
+    address: 24
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(easf02).state;'  # Jours de pointe
+
+  # 🔵⚪🔴 TEMPO
+  - modbus_controller_id: modbus_slave
+    address: 30
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(easf01).state;'  # BLEU HC
+
+  - modbus_controller_id: modbus_slave
+    address: 34
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(easf02).state;'  # BLEU HP
+
+  - modbus_controller_id: modbus_slave
+    address: 38
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(easf03).state;'  # BLANC HC
+
+  - modbus_controller_id: modbus_slave
+    address: 42
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(easf04).state;'  # BLANC HP
+
+  - modbus_controller_id: modbus_slave
+    address: 46
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(easf05).state;'  # ROUGE HC
+
+  - modbus_controller_id: modbus_slave
+    address: 50
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(easf06).state;'  # ROUGE HP
+
+  # Informations énergie
+  - modbus_controller_id: modbus_slave
+    address: 100
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(irms1).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 104
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(irms2).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 108
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(irms3).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 112
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(urms1).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 116
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(urms2).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 120
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(urms3).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 124
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(sinsts).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 128
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(smaxsn).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 132
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(pcoup).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 136
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(pref).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 140
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(ccasn).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 144
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(sinst1).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 148
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(sinst2).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 152
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(sinst3).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 156
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(smaxsn1).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 160
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(smaxsn2).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 164
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(smaxsn3).state;'
+
+  # Texte : Type de contrat (NGTF)
+  - modbus_controller_id: modbus_slave
+    address: 170
+    value_type: STRING
+    register_type: holding
+    response_length: 8
+    lambda: 'return id(ngtf).state;'
+
+  # Texte : Tarif en cours (LTARF)
+  - modbus_controller_id: modbus_slave
+    address: 174
+    value_type: STRING
+    register_type: holding
+    response_length: 8
+    lambda: 'return id(ltarf).state;'
+
+  # 🗓️ Calendrier tarifaire – Contrats Tempo / EJP
+  - modbus_controller_id: modbus_slave
+    address: 180
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(ntarf).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 184
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(njourf).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 188
+    value_type: U_DWORD
+    register_type: holding
+    lambda: 'return id(njourf_plus1).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 192
+    value_type: STRING
+    register_type: holding
+    response_length: 8
+    lambda: 'return id(pjourf_plus1).state;'
+
+  - modbus_controller_id: modbus_slave
+    address: 196
+    value_type: STRING
+    register_type: holding
+    response_length: 8
+    lambda: 'return id(ppoointe).state;'
+

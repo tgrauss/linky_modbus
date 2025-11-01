@@ -1,0 +1,137 @@
+substitutions:
+  name: linky_bridge
+  enable_uart2: "false"
+  enable_mqtt: "false"
+  enable_rest: "false"
+  enable_espnow: "false"
+  enable_modbus_tcp: "false"
+
+  # UART TIC
+  uart_tic_tx_pin: GPIO17
+  uart_tic_rx_pin: GPIO16
+
+  # UART RS485
+  uart_rs485_tx_pin: GPIO13
+  uart_rs485_rx_pin: GPIO21
+  uart_rs485_baud_rate: 9600
+  uart_rs485_stop_bits: 1
+  uart_rs485_parity: NONE
+
+  # UART RS485 secondaire (optionnel)
+  uart_rs485_2_tx_pin: GPIO35
+  uart_rs485_2_rx_pin: GPIO37
+  uart_rs485_2_baud_rate: 9600
+  uart_rs485__2_stop_bits: 1
+  uart_rs485_2_parity: NONE
+
+  #Modbus
+  modbus_address: 1
+  modbus_flow_control_pin: GPIO14
+
+  #Modbus2 (optionnel)
+  modbus2_address: 1
+  modbus2_flow_control_pin: GPIO36
+
+esphome:
+  name: ${name}
+  friendly_name: ${name}
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: esp-idf
+
+logger:
+  level: NONE
+  baud_rate: 0
+
+api:
+
+ota:
+
+web_server:
+  port: 80
+
+mdns:
+  disabled: false
+
+time:
+  - platform: sntp
+    timezone: "Europe/Paris"
+    id: my_time
+
+uart:
+  - id: uart_rs485
+    baud_rate: ${uart_rs485_baud_rate}
+    tx_pin: ${uart_rs485_tx_pin}
+    rx_pin: ${uart_rs485_rx_pin}
+    stop_bits: ${uart_rs485_stop_bits}
+    parity: ${uart_rs485_parity}
+
+  - id: uart_tic
+    baud_rate: 9600
+    tx_pin: ${uart_tic_tx_pin}
+    rx_pin: ${uart_tic_rx_pin}
+    parity: EVEN
+    data_bits: 7
+    stop_bits: 1
+
+  - id: uart_rs485_2
+    baud_rate: ${uart_rs485_2_baud_rate}
+    tx_pin: ${uart_rs485_2_tx_pin}
+    rx_pin: ${uart_rs485_2_rx_pin}
+    stop_bits: ${uart_rs485_2_stop_bits}
+    parity: ${uart_rs485_2_parity}
+    enable: !lambda 'return ${enable_uart2} == "true";'
+
+teleinfo:
+  id: myteleinfo
+  uart_id: uart_tic
+  update_interval: 1s
+  historical_mode: false
+
+modbus:
+  - id: modbus1
+    uart_id: uart_rs485
+    flow_control_pin: ${modbus_flow_control_pin}
+    send_wait_time: 200ms
+
+  - id: modbus2
+    uart_id: uart_rs485_2
+    flow_control_pin: ${modbus2_flow_control_pin}
+    send_wait_time: 200ms
+    enable: !lambda 'return ${enable_uart2} == "true";'
+
+modbus_controller:
+  - id: modbus_slave
+    address: ${modbus_address}
+    modbus_id: modbus1
+    register_count: 256
+    setup_priority: -10
+
+  - id: modbus_slave2
+    address: ${moddbus2_address}
+    modbus_id: modbus2
+    register_count: 256
+    setup_priority: -10
+    enable: !lambda 'return ${enable_uart2} == "true";'
+
+modbus_server:
+  id: modbus_tcp
+  port: 502
+  enable: !lambda 'return ${enable_modbus_tcp} == "true";'
+
+mqtt:
+  broker: !secret mqtt_broker
+  username: !secret mqtt_user
+  password: !secret mqtt_pass
+  discovery: true
+  enable: !lambda 'return ${enable_mqtt} == "true";'
+
+esp_now:
+  enable: !lambda 'return ${enable_espnow} == "true";'
+
+rest:
+  enable: !lambda 'return ${enable_rest} == "true";'
+
+<<: !include modbus_map.yaml

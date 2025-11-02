@@ -1,0 +1,18 @@
+#Configuration du projet test.
+#Appel les différents packages avec les bons paramètres.
+packages:
+  esp_board: !include
+    file: common/device_base.yaml
+    vars:
+      name: linky-bridge
+      board: esp32-s3-devkitc-1
+      logger_level: NONE
+      logger_baud_rate: 0
+
+  network: !include
+    file: common/network.yaml
+    vars:
+      timezone: Europe/Paris
+
+  teleinfo: !include
+    file: config_linky_bridge.yaml

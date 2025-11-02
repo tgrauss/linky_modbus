@@ -1,31 +1,15 @@
 # 🔌 Linky Bridge – Composant ESPHome
 
-Un composant ESPHome modulaire en YAML pour exposer les données téléinfo Linky via Modbus RTU.  
+Un composant ESPHome modulaire en YAML pour exposer les données téléinfo Linky via Modbus RTU.
 Compatible avec les contrats BASE, HC/HP, EJP et TEMPO.
 
 ---
 
 ## ⚙️ Paramètres disponibles
-Le fichier `config.yaml` contient l'appel aux différents packages avec leurs paramètres.
+Le fichier `config_linky_bridge.yaml` contient l'appel aux différents packages avec leurs paramètres.
 Vous pouvez le modifier si nécessaire. Par défaut, on va exposer les étiquettes téléinfo sur 2 bus rs485 en Modbus RTU mais vous pouvez également en enlever un en fonction des capacités de votre ESP32.
 
-### 🔧 Paramètres de base : `packages\base_def.yaml`
-
-| Paramètre           | Description                            | Valeur par défaut       |
-|---------------------|----------------------------------------|-------------------------|
-| `name`              | Nom du composant ESPHome               | `linky-bridge`          |
-| `board`             | Référence de la carte ESP32            | `esp32-s3-devkitc-1`    |
-| `logger_level`      | Niveau de log                          | `NONE`                  |
-| `logger_baud_rate`  | Baud rate du log                       | `0`                     |
-
-### 🔧 Paramètres du réseau : `packages\network_def.yaml`
-Attention ⚠️ : Les ssid, les mots de passes et autres secrets sont paramétrés dans votre fichier secrets.yaml qui se trouve à la racine de votre projet.
-
-| Paramètre           | Description                            | Valeur par défaut       |
-|---------------------|----------------------------------------|-------------------------|
-| `timezone`          | Votre fuseau horaire                   | `Europe/Paris`          |
-
-### 📡 Paramètres Téléinfo : `packages\teleinfo_map.yaml`
+### 📡 Paramètres Téléinfo : `packages_linky_bridge\teleinfo_map.yaml`
 
 | Substitution        | Description                        | Valeur par défaut |
 |---------------------|------------------------------------|-------------------|
@@ -33,7 +17,7 @@ Attention ⚠️ : Les ssid, les mots de passes et autres secrets sont paramétr
 | `rx_pin`            | Broche RX (GPIO)                   | `16`              |
 | `tx_pin`            | Broche TX (GPIO), non utilisé      | `17`              |
 
-### 🔌 Paramètres Modbus : `packages\modbus_map.yaml`
+### 🔌 Paramètres Modbus : `packages_linky_bridge\modbus_map.yaml`
 
 | Substitution              | Description                             | Valeur par défaut |
 |---------------------------|-----------------------------------------|-------------------|
@@ -174,33 +158,20 @@ Valeurs possibles pour différents registres de type STRING
 ---
 
 ## 🧪 Exemple d’intégration avec substitutions
-Téléchargez le composant et notemment le dossier `linky_bridge`. Créez un fichier secrets.yaml pour stocker vos mots de passe. Voir l'exemple dans le dossier `test` pour un exemple pratique. Dans votre fichier, appelez votre fichier `config.yaml` vec un `include`.
-Ci-dessous, un exemple de contenu du fichier `config.yaml`
+Téléchargez le composant et notemment le dossier `linky_bridge`. Créez un fichier secrets.yaml pour stocker vos mots de passe. Voir l'exemple dans le dossier `test` pour un exemple pratique. Dans votre fichier, appelez votre fichier `config_linky_bridge.yaml` avec un `package`.
+Ci-dessous, un exemple de contenu du fichier `config_linky_bridge.yaml`
 
 ```yaml
 packages:
-  esp_board: !include
-    file: packages/base_def.yaml
-    vars:
-      name: linky-bridge
-      board: esp32-s3-devkitc-1
-      logger_level: NONE
-      logger_baud_rate: 0
-
-  network: !include
-    file: packages/network_def.yaml
-    vars:
-      timezone: Europe/Paris
-
   teleinfo: !include
-    file: packages/teleinfo_map.yaml
+    file: packages_linky_bridge/teleinfo_map.yaml
     vars:
       teleinfo_id: linky
       tx_pin: 17
       rx_pin: 16
 
   modbus1: !include
-    file: packages/modbus_map.yaml
+    file: packages_linky_bridge/modbus_map.yaml
     vars:
       bus_id: 1
       bus_address: 100
@@ -213,7 +184,7 @@ packages:
       teleinfo_id: linky
 
   modbus2: !include
-    file: packages/modbus_map.yaml
+    file: packages_linky_bridge/modbus_map.yaml
     vars:
       bus_id: 2
       bus_address: 100
@@ -224,6 +195,7 @@ packages:
       stop_bits: 1
       parity: NONE
       teleinfo_id: linky
+
 ```
 
 ---
@@ -233,12 +205,9 @@ packages:
 ### 📁 Structure du dépôt
 
 Le composant est organisé dans un dossier `linky_bridge/` contenant :
-- `linky_bridg.yaml` : le fichier principal de votre configuration ESPHome. Il contient un appel au fichier config.yaml
-- `config.yaml` : le fichier contenant votre configuration ESPHome
-- `packages` : le dossier contenant les packages linky_bridge
-- `base_def.yaml` : le fichier contenant la configuration de base
-- `network_def.yamp` : le fichier contenant la configuration réseau
-- `modbus_map.yamp` : le fichier contenant le paramétrage modbus
+- `config_linky_bridge.yaml` : le fichier contenant votre configuration téléinfo
+- `packages_linky_bridge` : le dossier contenant les fichiers du package linky_bridge
+- `modbus_map.yaml` : le fichier contenant le paramétrage modbus
 - `teleinfo_map.yaml` : le fichier exposant les étiquettes téléinfo
 
 ---
@@ -247,7 +216,7 @@ Le composant est organisé dans un dossier `linky_bridge/` contenant :
 
 1. **Copiez le dossier `linky_bridge/`** dans votre projet ESPHome.
 
-2. **Modifiez le fichier `config.yaml`** dans votre fichier principal `.yaml`.
+2. **Modifiez le fichier `config_linky_bridge.yaml`** dans votre fichier principal `.yaml`.
 
 3. **Créez un fichier `secrets.yaml`** à la racine de votre projet (avec votre fichier yaml). Il va contenir vos mots de passe. Vous trouverez un exemple dans le dossier `test`, dans le fichier `secrets.example.yaml`.
 

@@ -1,26 +1,13 @@
 packages:
-  esp_board: !include
-    file: packages/base_def.yaml
-    vars:
-      name: linky-bridge
-      board: esp32-s3-devkitc-1
-      logger_level: NONE
-      logger_baud_rate: 0
-
-  network: !include
-    file: packages/network_def.yaml
-    vars:
-      timezone: Europe/Paris
-
   teleinfo: !include
-    file: packages/teleinfo_map.yaml
+    file: packages_linky_bridge/teleinfo_map.yaml
     vars:
       teleinfo_id: linky
       tx_pin: 17
       rx_pin: 16
 
   modbus1: !include
-    file: packages/modbus_map.yaml
+    file: packages_linky_bridge/modbus_map.yaml
     vars:
       bus_id: 1
       bus_address: 100
@@ -33,7 +20,7 @@ packages:
       teleinfo_id: linky
 
   modbus2: !include
-    file: packages/modbus_map.yaml
+    file: packages_linky_bridge/modbus_map.yaml
     vars:
       bus_id: 2
       bus_address: 100

@@ -1,0 +1,239 @@
+uart:
+  - id: uart_${teleinfo_id}
+    baud_rate: 9600
+    tx_pin: ${tx_pin}
+    rx_pin: ${rx_pin}
+    parity: EVEN
+    data_bits: 7
+    stop_bits: 1
+
+teleinfo:
+  id: ${teleinfo_id}
+  uart_id: uart_${teleinfo_id}
+  update_interval: 1s
+  historical_mode: false
+
+text_sensor:
+  - platform: teleinfo
+    tag_name: "NGTF"
+    name: Type de contrat ${teleinfo_id}
+    id: ${teleinfo_id}_ngtf
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "LTARF"
+    name: Tarif en cours ${teleinfo_id}
+    id: ${teleinfo_id}_ltarf
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "PJOURF+1"
+    name: Profil tarifaire prévu demain ${teleinfo_id}
+    id: ${teleinfo_id}_pjourf_plus1
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "PPOINTE"
+    name: Jour de pointe prévu demain ${teleinfo_id}
+    id: ${teleinfo_id}_ppointe
+    teleinfo_id: ${teleinfo_id}
+
+sensor:
+  # Informations TIC
+  # Index énergie par contrat
+  - platform: teleinfo
+    tag_name: "EAST"
+    name: Énergie totale soutirée ${teleinfo_id}
+    unit_of_measurement: "Wh"
+    id: ${teleinfo_id}_east
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "EAIT"
+    name: Énergie totale injectée ${teleinfo_id}
+    unit_of_measurement: "Wh"
+    id: ${teleinfo_id}_eait
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "EASF01"
+    name: Énergie période 1 ${teleinfo_id}
+    unit_of_measurement: "Wh"
+    id: ${teleinfo_id}_easf01
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "EASF02"
+    name: Énergie période 2 ${teleinfo_id}
+    unit_of_measurement: "Wh"
+    id: ${teleinfo_id}_easf02
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "EASF03"
+    name: Énergie période 3 ${teleinfo_id}
+    unit_of_measurement: "Wh"
+    id: ${teleinfo_id}_easf03
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "EASF04"
+    name: Énergie période 4 ${teleinfo_id}
+    unit_of_measurement: "Wh"
+    id: ${teleinfo_id}_easf04
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "EASF05"
+    name: Énergie période 5 ${teleinfo_id}
+    unit_of_measurement: "Wh"
+    id: ${teleinfo_id}_easf05
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "EASF06"
+    name: Énergie période 6 ${teleinfo_id}
+    unit_of_measurement: "Wh"
+    id: ${teleinfo_id}_easf06
+    teleinfo_id: ${teleinfo_id}
+
+  # Courants par phase
+  - platform: teleinfo
+    tag_name: "IRMS1"
+    name: Courant phase 1 ${teleinfo_id}
+    unit_of_measurement: "A"
+    id: ${teleinfo_id}_irms1
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "IRMS2"
+    name: Courant phase 2 ${teleinfo_id}
+    unit_of_measurement: "A"
+    id: ${teleinfo_id}_irms2
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "IRMS3"
+    name: Courant phase 3 ${teleinfo_id}
+    unit_of_measurement: "A"
+    id: ${teleinfo_id}_irms3
+    teleinfo_id: ${teleinfo_id}
+
+  # Tensions par phase
+  - platform: teleinfo
+    tag_name: "URMS1"
+    name: Tension phase 1 ${teleinfo_id}
+    unit_of_measurement: "V"
+    id: ${teleinfo_id}_urms1
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "URMS2"
+    name: Tension phase 2 ${teleinfo_id}
+    unit_of_measurement: "V"
+    id: ${teleinfo_id}_urms2
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "URMS3"
+    name: Tension phase 3 ${teleinfo_id}
+    unit_of_measurement: "V"
+    id: ${teleinfo_id}_urms3
+    teleinfo_id: ${teleinfo_id}
+
+  # Puissance instantanée
+  - platform: teleinfo
+    tag_name: "SINSTS"
+    name: Puissance apparente totale ${teleinfo_id}
+    unit_of_measurement: "VA"
+    id: ${teleinfo_id}_sinsts
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "SINST1"
+    name: Puissance phase 1 ${teleinfo_id}
+    unit_of_measurement: "VA"
+    id: ${teleinfo_id}_sinst1
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "SINST2"
+    name: Puissance phase 2 ${teleinfo_id}
+    unit_of_measurement: "VA"
+    id: ${teleinfo_id}_sinst2
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "SINST3"
+    name: Puissance phase 3 ${teleinfo_id}
+    unit_of_measurement: "VA"
+    id: ${teleinfo_id}_sinst3
+    teleinfo_id: ${teleinfo_id}
+
+  # Puissance max du jour
+  - platform: teleinfo
+    tag_name: "SMAXSN"
+    name: Puissance max totale ${teleinfo_id}
+    unit_of_measurement: "VA"
+    id: ${teleinfo_id}_smaxsn
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "SMAXSN1"
+    name: Puissance max phase 1 ${teleinfo_id}
+    unit_of_measurement: "VA"
+    id: ${teleinfo_id}_smaxsn1
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "SMAXSN2"
+    name: Puissance max phase 2 ${teleinfo_id}
+    unit_of_measurement: "VA"
+    id: ${teleinfo_id}_smaxsn2
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "SMAXSN3"
+    name: Puissance max phase 3 ${teleinfo_id}
+    unit_of_measurement: "VA"
+    id: ${teleinfo_id}_smaxsn3
+    teleinfo_id: ${teleinfo_id}
+
+  # Autres
+  - platform: teleinfo
+    tag_name: "PCOUP"
+    name: Puissance de coupure ${teleinfo_id}
+    unit_of_measurement: "VA"
+    id: ${teleinfo_id}_pcoup
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "PREF"
+    name: Puissance de référence ${teleinfo_id}
+    unit_of_measurement: "kVA"
+    id: ${teleinfo_id}_pref
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "CCASN"
+    name: Compteur de dépassement ${teleinfo_id}
+    id: ${teleinfo_id}_ccasn
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "NTARF"
+    name: Index tarifaire en cours ${teleinfo_id}
+    id: ${teleinfo_id}_ntarf
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "NJOURF"
+    name: Jour tarifaire actuel ${teleinfo_id}
+    id: ${teleinfo_id}_njourf
+    teleinfo_id: ${teleinfo_id}
+
+  - platform: teleinfo
+    tag_name: "NJOURF+1"
+    name: Jour tarifaire prévu demain ${teleinfo_id}
+    id: ${teleinfo_id}_njourf_plus1
+    teleinfo_id: ${teleinfo_id}

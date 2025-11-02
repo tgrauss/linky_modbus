@@ -5,51 +5,47 @@ Compatible avec les contrats BASE, HC/HP, EJP et TEMPO.
 
 ---
 
-## ⚙️ Substitutions disponibles
+## ⚙️ Paramètres disponibles
+Le fichier `config.yaml` contient l'appel aux différents packages avec leurs paramètres.
+Vous pouvez le modifier si nécessaire. Par défaut, on va exposer les étiquettes téléinfo sur 2 bus rs485 en Modbus RTU mais vous pouvez également en enlever un en fonction des capacités de votre ESP32.
 
-Ces substitutions permettent de personnaliser le composant `linky_bridge.yaml` selon votre matériel et vos besoins. Toutes les valeurs peuvent être surchargées dans votre configuration ESPHome.
+### 🔧 Paramètres de base : `packages\base_def.yaml`
 
-### 🔧 Identité
+| Paramètre           | Description                            | Valeur par défaut       |
+|---------------------|----------------------------------------|-------------------------|
+| `name`              | Nom du composant ESPHome               | `linky-bridge`          |
+| `board`             | Référence de la carte ESP32            | `esp32-s3-devkitc-1`    |
+| `logger_level`      | Niveau de log                          | `NONE`                  |
+| `logger_baud_rate`  | Baud rate du log                       | `0`                     |
 
-| Substitution        | Description                            | Valeur par défaut |
-|---------------------|----------------------------------------|-------------------|
-| `name`              | Nom du composant ESPHome               | `linky-bridge`    |
+### 🔧 Paramètres du réseau : `packages\network_def.yaml`
+Attention ⚠️ : Les ssid, les mots de passes et autres secrets sont paramétrés dans votre fichier secrets.yaml qui se trouve à la racine de votre projet.
 
-### 📡 UART TIC
+| Paramètre           | Description                            | Valeur par défaut       |
+|---------------------|----------------------------------------|-------------------------|
+| `timezone`          | Votre fuseau horaire                   | `Europe/Paris`          |
+
+### 📡 Paramètres Téléinfo : `packages\teleinfo_map.yaml`
 
 | Substitution        | Description                        | Valeur par défaut |
 |---------------------|------------------------------------|-------------------|
-| `uart_tic_tx_pin`   | Broche TX pour le bus TIC          | `GPIO17`          |
-| `uart_tic_rx_pin`   | Broche RX pour le bus TIC          | `GPIO16`          |
+| `teleinfo_id`       | Nom de votre composant téléinfo    | `linky`           |
+| `rx_pin`            | Broche RX (GPIO)                   | `16`              |
+| `tx_pin`            | Broche TX (GPIO), non utilisé      | `17`              |
 
-### 🔌 UART RS485 principal
+### 🔌 Paramètres Modbus : `packages\modbus_map.yaml`
 
 | Substitution              | Description                             | Valeur par défaut |
 |---------------------------|-----------------------------------------|-------------------|
-| `uart_rs485_tx_pin`       | Broche TX pour RS485 principal          | `GPIO13`          |
-| `uart_rs485_rx_pin`       | Broche RX pour RS485 principal          | `GPIO21`          |
-| `modbus_flow_control_pin` | Broche de contrôle de flux Modbus RTU   | `GPIO14`          |
-| `uart_rs485_baud_rate`    | Baudrate RS485 principal                | `9600`            |
-| `uart_rs485_stop_bits`    | Stop bits RS485 principal               | `1`               |
-| `uart_rs485_parity`       | Parité RS485 principal (`NONE`, `EVEN`, `ODD`) | `NONE`     |
-
-### 🧪 UART RS485 secondaire
-
-| Substitution                  | Description                             | Valeur par défaut |
-|-------------------------------|-----------------------------------------|-------------------|
-| `uart_rs485_2_tx_pin`         | Broche TX pour RS485 secondaire         | `GPIO38`          |
-| `uart_rs485_2_rx_pin`         | Broche RX pour RS485 secondaire         | `GPIO40`          |
-| `modbus2_flow_control_pin`    | Broche de contrôle de flux secondaire   | `GPIO39`          |
-| `uart_rs485_2_baud_rate`      | Baudrate RS485 secondaire               | `9600`            |
-| `uart_rs485__2_stop_bits`     | Stop bits RS485 secondaire              | `1`               |
-| `uart_rs485_2_parity`         | Parité RS485 secondaire                 | `NONE`            |
-
-### 🧮 Adresses Modbus (surchargables)
-
-| Substitution                  |  Description                                      | Adresse par défaut | 
-|-------------------------------|---------------------------------------------------|--------------------|
-| `modbus_address`              | Adresse modbus sur uart1                          | `1`                | 
-| `modbus2_address`             | Adresse modbus sur uart2                          | `1`                |
+| `bus_id`                  | Identifiant du bus Modbus               | `1`               |
+| `bus_address`             | Adresse Modbus                          | `100`             |
+| `baud_rate`               | Baudrate RS485                          | `9600`            |
+| `tx_pin`                  | Broche TX pour RS485                    | `13`              |
+| `rx_pin`                  | Broche RX pour RS485                    | `21`              |
+| `flow_control_pin`        | Broche de contrôle de flux Modbus RTU   | `14`              |
+| `stop_bit`                | Stop bit RS485                          | `1`               |
+| `parity`                  | Parité RS485 (`NONE`, `EVEN`, `ODD`)    | `NONE`            |
+| `teleinfo_id`             | Nom du composant téléinfo utilisé       | `linky`           |
 
 ## 🧮 Registres Modbus exposés
 
@@ -178,19 +174,56 @@ Valeurs possibles pour différents registres de type STRING
 ---
 
 ## 🧪 Exemple d’intégration avec substitutions
-Téléchargez le composant et notemment le dossier `linky_bridge`. Créez un fichier secrets.yaml pour stocker vos mots de passe. Voir l'exemple dans le dossier `test` pour un exemple pratique.
+Téléchargez le composant et notemment le dossier `linky_bridge`. Créez un fichier secrets.yaml pour stocker vos mots de passe. Voir l'exemple dans le dossier `test` pour un exemple pratique. Dans votre fichier, appelez votre fichier `config.yaml` vec un `include`.
+Ci-dessous, un exemple de contenu du fichier `config.yaml`
 
 ```yaml
-substitutions:
-  name: linky-bridge
-  uart_tic_rx_pin: GPIO16
-  uart_tic_tx_pin: GPIO17
-  uart_rs485_tx_pin: GPIO13
-  uart_rs485_rx_pin: GPIO21
-  modbus_flow_control_pin: GPIO14
-
 packages:
-  linky: !include linky_bridge/linky_bridge.yaml
+  esp_board: !include
+    file: packages/base_def.yaml
+    vars:
+      name: linky-bridge
+      board: esp32-s3-devkitc-1
+      logger_level: NONE
+      logger_baud_rate: 0
+
+  network: !include
+    file: packages/network_def.yaml
+    vars:
+      timezone: Europe/Paris
+
+  teleinfo: !include
+    file: packages/teleinfo_map.yaml
+    vars:
+      teleinfo_id: linky
+      tx_pin: 17
+      rx_pin: 16
+
+  modbus1: !include
+    file: packages/modbus_map.yaml
+    vars:
+      bus_id: 1
+      bus_address: 100
+      baud_rate: 9600
+      tx_pin: 13
+      rx_pin: 21
+      flow_control_pin: 14
+      stop_bits: 1
+      parity: NONE
+      teleinfo_id: linky
+
+  modbus2: !include
+    file: packages/modbus_map.yaml
+    vars:
+      bus_id: 2
+      bus_address: 100
+      baud_rate: 9600
+      tx_pin: 38
+      rx_pin: 40
+      flow_control_pin: 39
+      stop_bits: 1
+      parity: NONE
+      teleinfo_id: linky
 ```
 
 ---
@@ -200,44 +233,25 @@ packages:
 ### 📁 Structure du dépôt
 
 Le composant est organisé dans un dossier `linky_bridge/` contenant :
-
-- `linky_bridge.yaml` : le fichier principal à inclure dans votre configuration ESPHome
-- `linky_map.yaml` : le fichier contenant les sensors avec le contenu des étiquettes téléinfo
-- `modbus_map.yamp` : le fichier contenant les registres du bus modbus1
-- `modbus2_map.yamp` : le fichier contenant les registres du bus modbus2
+- `linky_bridg.yaml` : le fichier principal de votre configuration ESPHome. Il contient un appel au fichier config.yaml
+- `config.yaml` : le fichier contenant votre configuration ESPHome
+- `packages` : le dossier contenant les packages linky_bridge
+- `base_def.yaml` : le fichier contenant la configuration de base
+- `network_def.yamp` : le fichier contenant la configuration réseau
+- `modbus_map.yamp` : le fichier contenant le paramétrage modbus
+- `teleinfo_map.yaml` : le fichier exposant les étiquettes téléinfo
 
 ---
 
 ### 📦 Intégration dans ESPHome
 
-1. **Copiez le dossier `linky_bridge/`** dans votre projet ESPHome (là où se trouvent vos fichiers `.yaml`).
+1. **Copiez le dossier `linky_bridge/`** dans votre projet ESPHome.
 
-2. **Ajoutez les substitutions nécessaires** dans votre fichier principal `.yaml` :
+2. **Modifiez le fichier `config.yaml`** dans votre fichier principal `.yaml`.
 
-```yaml
-substitutions:
-  name: linky-bridge
-  uart_tic_rx_pin: GPIO16
-  uart_tic_tx_pin: GPIO17
-  uart_rs485_tx_pin: GPIO13
-  uart_rs485_rx_pin: GPIO21
-  modbus_flow_control_pin: GPIO14
-```
-3. **Créer un fichier `secrets.yaml` à la racine de votre projet (avec votre fichier yaml). Il va contenir vos mots de passe
+3. **Créez un fichier `secrets.yaml`** à la racine de votre projet (avec votre fichier yaml). Il va contenir vos mots de passe. Vous trouverez un exemple dans le dossier `test`, dans le fichier `secrets.example.yaml`.
 
-```yaml
-wifi_ssid: "MonSSID"
-wifi_password: "MonMotDePasse"
-ota_pass: "motdepasseOTA"
-
-```
-
-3. **Incluez le composant dans votre configuration** :
-
-```yaml
-packages:
-  linky: !include linky_bridge/linky_bridge.yaml
-```
+3. **Incluez le composant dans votre configuration** 
 
 4. **Compilez et flashez votre firmware** :
 Si vous souhaitez compiler et flasher le firmware en ligne de commande, voici les étapes recommandées :

@@ -1,0 +1,157 @@
+uart:
+  - id: uart_rs485_${bus_id}
+    baud_rate: ${baud_rate}
+    tx_pin: ${tx_pin}
+    rx_pin: ${rx_pin}
+    stop_bits: ${stop_bits}
+    parity: ${parity}
+
+modbus:
+  - id: modbus_${bus_id}
+    uart_id: uart_rs485_${bus_id}
+    flow_control_pin: ${flow_control_pin}
+    send_wait_time: 200ms
+    role: server
+
+modbus_controller:
+  - id: modbus_controller_${bus_id}
+    address: ${bus_address}
+    modbus_id: modbus_${bus_id}
+    server_registers:
+      # 🔵 BASE
+      - address: 0
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_east).state;'
+      - address: 2
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_eait).state;'
+
+      # 🔵 HC/HP
+      - address: 4
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_easf01).state;'
+      - address: 6
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_easf02).state;'
+
+      # 🔴 EJP
+      - address: 8
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_easf01).state;'
+      - address: 10
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_easf02).state;'
+
+      # 🔵⚪🔴 TEMPO
+      - address: 12
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_easf01).state;'
+      - address: 14
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_easf02).state;'
+      - address: 16
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_easf03).state;'
+      - address: 18
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_easf04).state;'
+      - address: 20
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_easf05).state;'
+      - address: 22
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_easf06).state;'
+
+      # ⚡ Courants
+      - address: 24
+        value_type: U_WORD
+        read_lambda: 'return (uint16_t)id(${teleinfo_id}_irms1).state;'
+      - address: 25
+        value_type: U_WORD
+        read_lambda: 'return (uint16_t)id(${teleinfo_id}_irms2).state;'
+      - address: 26
+        value_type: U_WORD
+        read_lambda: 'return (uint16_t)id(${teleinfo_id}_irms3).state;'
+
+      # 🔌 Tensions
+      - address: 27
+        value_type: U_WORD
+        read_lambda: 'return (uint16_t)id(${teleinfo_id}_urms1).state;'
+      - address: 28
+        value_type: U_WORD
+        read_lambda: 'return (uint16_t)id(${teleinfo_id}_urms2).state;'
+      - address: 29
+        value_type: U_WORD
+        read_lambda: 'return (uint16_t)id(${teleinfo_id}_urms3).state;'
+
+      # ⚡ Puissance instantanée
+      - address: 30
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_sinsts).state;'
+      - address: 32
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_sinst1).state;'
+      - address: 34
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_sinst2).state;'
+      - address: 36
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_sinst3).state;'
+
+      # 📈 Puissance max
+      - address: 38
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_smaxsn).state;'
+      - address: 40
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_smaxsn1).state;'
+      - address: 42
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_smaxsn2).state;'
+      - address: 44
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_smaxsn3).state;'
+
+      # 🔒 Puissance de coupure / référence
+      - address: 46
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_pcoup).state;'
+      - address: 48
+        value_type: U_WORD
+        read_lambda: 'return (uint16_t)id(${teleinfo_id}_pref).state;'
+
+      # 📊 Dépassement
+      - address: 49
+        value_type: U_WORD
+        read_lambda: 'return (uint16_t)id(${teleinfo_id}_ccasn).state;'
+
+      # 🗓️ Calendrier tarifaire
+      - address: 50
+        value_type: U_WORD
+        read_lambda: 'return (uint16_t)id(${teleinfo_id}_ntarf).state;'
+      - address: 51
+        value_type: U_WORD
+        read_lambda: 'return (uint16_t)id(${teleinfo_id}_njourf).state;'
+      - address: 52
+        value_type: U_WORD
+        read_lambda: 'return (uint16_t)id(${teleinfo_id}_njourf_plus1).state;'
+
+      # 🟢 Texte : Type de contrat
+      - address: 53
+        value_type: U_QWORD
+        read_lambda: 'return strtoull(id(${teleinfo_id}_ngtf).state.c_str(), nullptr, 10);'
+
+      # 🟢 Texte : Tarif en cours
+      - address: 57
+        value_type: U_QWORD
+        read_lambda: 'return strtoull(id(${teleinfo_id}_ltarf).state.c_str(), nullptr, 10);'
+
+      # 🟢 Texte : Profil tarifaire prévu demain
+      - address: 61
+        value_type: U_QWORD
+        read_lambda: 'return strtoull(id(${teleinfo_id}_pjourf_plus1).state.c_str(), nullptr, 10);'
+
+      # 🟢 Texte : Jour de pointe prévu demain
+      - address: 65
+        value_type: U_QWORD
+        read_lambda: 'return strtoull(id(${teleinfo_id}_ppointe).state.c_str(), nullptr, 10);'

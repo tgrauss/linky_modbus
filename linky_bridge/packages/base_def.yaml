@@ -1,0 +1,13 @@
+esphome:
+  name: ${name}
+  friendly_name: ${name}
+
+esp32:
+  board: ${board}
+  framework:
+    type: esp-idf
+
+logger:
+  level: ${logger_level}
+  baud_rate: ${logger_baud_rate}
+

@@ -5,23 +5,6 @@ Compatible avec les contrats BASE, HC/HP, EJP et TEMPO.
 
 ---
 
-## 🚀 Installation
-
-Ajoutez ceci à votre configuration ESPHome :
-
-```yaml
-external_components:
-  - source:
-      type: git
-      url: https://github.com/<votre-utilisateur>/linky_bridge
-    refresh: 0s
-
-packages:
-  linky: !include linky_bridge/linky_bridge.yaml
-```
-
----
-
 ## ⚙️ Substitutions disponibles
 
 Ces substitutions permettent de personnaliser le composant `linky_bridge.yaml` selon votre matériel et vos besoins. Toutes les valeurs peuvent être surchargées dans votre configuration ESPHome.
@@ -195,13 +178,16 @@ Valeurs possibles pour différents registres de type STRING
 ---
 
 ## 🧪 Exemple d’intégration avec substitutions
+Téléchargez le composant et notemment le dossier `linky_bridge`. Créez un fichier secrets.yaml pour stocker vos mots de passe. Voir l'exemple dans le dossier `test` pour un exemple pratique.
 
 ```yaml
 substitutions:
-  name: mon-linky
-  uart_rs485_tx_pin: GPIO1
-  uart_rs485_rx_pin: GPIO3
-  modbus_flow_control_pin: GPIO4
+  name: linky-bridge
+  uart_tic_rx_pin: GPIO16
+  uart_tic_tx_pin: GPIO17
+  uart_rs485_tx_pin: GPIO13
+  uart_rs485_rx_pin: GPIO21
+  modbus_flow_control_pin: GPIO14
 
 packages:
   linky: !include linky_bridge/linky_bridge.yaml

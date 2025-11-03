@@ -5,6 +5,7 @@ packages:
       teleinfo_id: linky
       rx_pin: 16
       alarm_pin: 17
+      update_interval: 1s
 
   modbus1: !include
     file: packages_linky_modbus/modbus_map.yaml
@@ -18,6 +19,8 @@ packages:
       stop_bits: 1
       parity: NONE
       teleinfo_id: linky
+      send_wait_time: 200ms
+
 
   modbus2: !include
     file: packages_linky_modbus/modbus_map.yaml
@@ -31,3 +34,4 @@ packages:
       stop_bits: 1
       parity: NONE
       teleinfo_id: linky
+      send_wait_time: 200ms

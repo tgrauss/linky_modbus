@@ -9,7 +9,7 @@ uart:
 teleinfo:
   id: ${teleinfo_id}
   uart_id: uart_${teleinfo_id}
-  update_interval: 1s
+  update_interval: ${update_interval}
   historical_mode: false
 
 #Alarm switch. Sortie permettant d'indiquer si un dépassement de puissance est activé

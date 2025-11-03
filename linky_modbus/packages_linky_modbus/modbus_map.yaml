@@ -10,7 +10,7 @@ modbus:
   - id: modbus_${bus_id}
     uart_id: uart_rs485_${bus_id}
     flow_control_pin: ${flow_control_pin}
-    send_wait_time: 200ms
+    send_wait_time: ${send_wait_time}
     role: server
 
 modbus_controller:
@@ -120,38 +120,38 @@ modbus_controller:
         value_type: U_WORD
         read_lambda: 'return (uint16_t)id(${teleinfo_id}_pref).state;'
 
-      # 📊 Dépassement
+      # 📊 Puissance Active Soutirée
       - address: 49
-        value_type: U_WORD
-        read_lambda: 'return (uint16_t)id(${teleinfo_id}_ccasn).state;'
+        value_type: U_DWORD
+        read_lambda: 'return (uint32_t)id(${teleinfo_id}_ccasn).state;'
 
       # 🗓️ Calendrier tarifaire
-      - address: 50
-        value_type: U_WORD
-        read_lambda: 'return (uint16_t)id(${teleinfo_id}_ntarf).state;'
       - address: 51
         value_type: U_WORD
-        read_lambda: 'return (uint16_t)id(${teleinfo_id}_njourf).state;'
+        read_lambda: 'return (uint16_t)id(${teleinfo_id}_ntarf).state;'
       - address: 52
+        value_type: U_WORD
+        read_lambda: 'return (uint16_t)id(${teleinfo_id}_njourf).state;'
+      - address: 53
         value_type: U_WORD
         read_lambda: 'return (uint16_t)id(${teleinfo_id}_njourf_plus1).state;'
 
       # 🟢 Texte : Type de contrat
-      - address: 53
+      - address: 54
         value_type: U_QWORD
         read_lambda: 'return strtoull(id(${teleinfo_id}_ngtf).state.c_str(), nullptr, 10);'
 
       # 🟢 Texte : Tarif en cours
-      - address: 57
+      - address: 58
         value_type: U_QWORD
         read_lambda: 'return strtoull(id(${teleinfo_id}_ltarf).state.c_str(), nullptr, 10);'
 
       # 🟢 Texte : Profil tarifaire prévu demain
-      - address: 61
+      - address: 62
         value_type: U_QWORD
         read_lambda: 'return strtoull(id(${teleinfo_id}_pjourf_plus1).state.c_str(), nullptr, 10);'
 
       # 🟢 Texte : Jour de pointe prévu demain
-      - address: 65
+      - address: 66
         value_type: U_QWORD
         read_lambda: 'return strtoull(id(${teleinfo_id}_ppointe).state.c_str(), nullptr, 10);'

@@ -1,7 +1,6 @@
 uart:
   - id: uart_${teleinfo_id}
     baud_rate: 9600
-    tx_pin: ${tx_pin}
     rx_pin: ${rx_pin}
     parity: EVEN
     data_bits: 7
@@ -10,8 +9,15 @@ uart:
 teleinfo:
   id: ${teleinfo_id}
   uart_id: uart_${teleinfo_id}
-  update_interval: 1s
+  update_interval: ${update_interval}
   historical_mode: false
+
+#Alarm switch. Sortie permettant d'indiquer si un dépassement de puissance est activé
+switch:
+  - platform: gpio
+    id: ${teleinfo_id}_alarm
+    pin: ${alarm_pin}
+    inverted: true
 
 text_sensor:
   - platform: teleinfo
@@ -148,6 +154,14 @@ sensor:
     unit_of_measurement: "VA"
     id: ${teleinfo_id}_sinsts
     teleinfo_id: ${teleinfo_id}
+    on_value:
+      then:
+        - lambda: |-
+            if (x > id(${teleinfo_id}_pcoup).state) {
+              id(${teleinfo_id}_alarm).turn_on();
+            } else {
+              id(${teleinfo_id}_alarm).turn_off();
+            }
 
   - platform: teleinfo
     tag_name: "SINST1"
@@ -216,7 +230,8 @@ sensor:
 
   - platform: teleinfo
     tag_name: "CCASN"
-    name: Compteur de dépassement ${teleinfo_id}
+    name: Puissance Active Soutirée ${teleinfo_id}
+    unit_of_measurement: "W"
     id: ${teleinfo_id}_ccasn
     teleinfo_id: ${teleinfo_id}
 

@@ -10,7 +10,7 @@ modbus:
   - id: modbus_${bus_id}
     uart_id: uart_rs485_${bus_id}
     flow_control_pin: ${flow_control_pin}
-    send_wait_time: 200ms
+    send_wait_time: ${send_wait_time}
     role: server
 
 modbus_controller:
